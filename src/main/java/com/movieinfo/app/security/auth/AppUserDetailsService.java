@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.movieinfo.app.security.domain.AppUserRole.ADMIN;
+import static com.movieinfo.app.security.domain.AppUserRole.USER;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {

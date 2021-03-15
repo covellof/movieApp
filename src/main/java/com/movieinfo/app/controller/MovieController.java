@@ -17,13 +17,13 @@ public class MovieController {
     }
 
     @GetMapping("/")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public MovieList findAll() {
         return service.findAll();
     }
 
     @GetMapping("{movieDBId}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_STUDENT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public MovieResponse findById(@PathVariable Integer movieDBId) {
         return service.findById(movieDBId);
     }

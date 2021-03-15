@@ -41,14 +41,11 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
         if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getPrefix())) {
             filterChain.doFilter(request, response);
-            System.out.println("ENTERED FILTER CHAIN");
             return;
         }
 
-        System.out.println("AUTHORIZATION HEADER IS: " + authorizationHeader);
-        System.out.println("TOKEN PREFIX IS: " + jwtConfig.getPrefix());
         String token = authorizationHeader.replace(jwtConfig.getPrefix(), "");
-        System.out.println("TOKEN IS: " + token);
+
         try {
 
             Jws<Claims> claimsJws = Jwts.parser()

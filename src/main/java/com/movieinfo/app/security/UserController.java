@@ -29,7 +29,7 @@ public class UserController {
         return service.findById(username);
     }
 
-    @GetMapping("/user/{username}")
+    @GetMapping("/{username}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserResponse findUser(@PathVariable String username) {
         return service.findById(username);

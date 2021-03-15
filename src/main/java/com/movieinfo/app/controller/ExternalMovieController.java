@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +43,9 @@ public class ExternalMovieController {
     }
 
     @GetMapping(value = "/saveDBtoLocal")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean getFullDB() {
-        for (int id = 37; id < 5474; id++) {
+        for (int id = 1; id < 5474; id++) {
             MovieResponse movie = fetchMovieAndSave(String.valueOf(id));
             LOGGER.info("Saving movie with id {}, {}", id, movie);
         }

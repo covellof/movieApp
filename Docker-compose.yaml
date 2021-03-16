@@ -1,0 +1,44 @@
+#Connection url for connection in the DatabaseView:
+#Perform log in and then proceed to fetch DB with GET at localhost:18080/<movie or tv>/saveDBToLocal
+#mongo://mongo:27017/movieAppDb, login=root, password=pass12345
+#App is available at: http://localhost:18080/api/
+
+version: "3.8"
+
+networks:
+  mongodb_network:
+    name: mongodb_network
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 18080:8080
+    networks:
+      - mongodb_network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mongo
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass12345
+      - MONGO_INITDB_DATABASE=movieAppDb
+    networks:
+      - mongodb_network
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
